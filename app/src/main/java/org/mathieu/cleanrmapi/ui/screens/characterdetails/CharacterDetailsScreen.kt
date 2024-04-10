@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -33,6 +35,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,6 +46,7 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import org.mathieu.cleanrmapi.ui.core.composables.PreviewContent
 import org.mathieu.cleanrmapi.ui.core.theme.Purple40
+import org.mathieu.projet2.R
 
 private typealias UIState = CharacterDetailsState
 
@@ -60,7 +64,6 @@ fun CharacterDetailsScreen(
         state = state,
         onClickBack = navController::popBackStack
     )
-
 }
 
 
@@ -68,7 +71,8 @@ fun CharacterDetailsScreen(
 @Composable
 private fun CharacterDetailsContent(
     state: UIState = UIState(),
-    onClickBack: () -> Unit = { }
+    onClickBack: () -> Unit = { },
+    navController: NavController // Ajout d'un NavController pour gérer la navigation
 ) = Scaffold(topBar = {
 
     Row(
@@ -136,10 +140,7 @@ private fun CharacterDetailsContent(
                                 )
                             )
                     )
-
-
                 }
-
                 Column(
                     modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -157,9 +158,54 @@ private fun CharacterDetailsContent(
 
                     Text(text = state.name)
                 }
+                // Ce bloc est exécuté lorsqu'une opération précédente (probablement une requête de données) réussit.
+                onSuccess {
+                    // Trie la liste des épisodes obtenus dans l'objet `it` par le code d'épisode.
+                    // `it` fait référence à l'objet résultat de l'opération réussie, contenant probablement les détails d'un personnage
+                    // et sa liste d'épisodes associés.
+                    val sortedEpisodes = it.episode.sortedBy { episode -> episode.code }
+
+                    // Met à jour l'état actuel en utilisant la fonction `updateState`. `updateState` est probablement une fonction définie
+                    // pour manipuler l'état de l'UI ou d'un modèle de données dans une architecture MVVM ou MVI.
+                    // La mise à jour de l'état se fait ici par la copie de l'état actuel tout en modifiant certaines de ses propriétés:
+                    // - `avatarUrl` est mis à jour avec la nouvelle URL de l'avatar obtenue.
+                    // - `name` est mis à jour avec le nouveau nom du personnage.
+                    // - `episodes` est mis à jour avec la liste triée des épisodes.
+                    // - `error` est réinitialisé à `null` pour indiquer qu'aucune erreur n'est actuellement présente.
+                    updateState { copy(avatarUrl = it.avatarUrl, name = it.name, episodes = sortedEpisodes, error = null) }
+                }
+
 
 
             }
+        }
+    }
+}
+
+// Décore une fonction composable nommée `EpisodeCard` qui prend en paramètre un objet `Episode`
+// et une lambda `onClick` qui sera invoquée lorsque l'utilisateur clique sur la carte.
+@Composable
+fun EpisodeCard(episode: Episode, onClick: () -> Unit) {
+    Row( // Crée une ligne horizontale qui va contenir les éléments de la carte.
+        modifier = Modifier
+            .fillMaxWidth() // Assure que la carte remplit la largeur maximale disponible de son conteneur parent.
+            .clickable { onClick() } // Rend la carte cliquable et exécute la lambda `onClick` lorsqu'elle est cliquée.
+            .padding(8.dp), // Ajoute un padding de 8dp autour de la carte pour la séparer des autres éléments.
+        verticalAlignment = Alignment.CenterVertically // Centre verticalement les éléments à l'intérieur de la ligne.
+    ) {
+        Spacer(Modifier.width(8.dp)) // Insère un espace vide de 8dp pour un meilleur espacement visuel au début de la carte.
+
+        Column {
+            // Concaténation du code de l'épisode, d'un tiret et du titre de l'épisode
+            Text(
+                text = "${episode.code} - ${episode.name}",
+                fontWeight = FontWeight.Bold
+            )
+            // Affichage de la date de l'épisode
+            Text(
+                text = "Air date: ${episode.airDate}",
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }

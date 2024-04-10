@@ -30,7 +30,7 @@ internal data class CharacterResponse(
     val origin: CharacterLocationResponse,
     val location: CharacterLocationResponse,
     val image: String,
-    val episode: RealmList<String>?,
+    val episode: RealmList<EpisodeResponse>?,
     val url: String,
     val created: String
 )

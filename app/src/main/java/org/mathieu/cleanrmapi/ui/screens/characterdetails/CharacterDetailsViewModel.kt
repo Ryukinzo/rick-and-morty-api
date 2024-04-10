@@ -16,7 +16,8 @@ class CharacterDetailsViewModel(application: Application) : ViewModel<CharacterD
         ) {
 
             onSuccess {
-                updateState { copy(avatarUrl = it.avatarUrl, name = it.name, error = null) }
+                val sortedEpisodes = it.episode.sortedBy { episode -> episode.code }
+                updateState { copy(avatarUrl = it.avatarUrl, name = it.name, episodes = sortedEpisodes, error = null) }
             }
 
             onFailure {
@@ -31,9 +32,17 @@ class CharacterDetailsViewModel(application: Application) : ViewModel<CharacterD
 }
 
 
+data class Episode(
+    val id: Int,
+    val code: String,
+    val name: String,
+    val airDate: String
+)
+
 data class CharacterDetailsState(
     val isLoading: Boolean = true,
     val avatarUrl: String = "",
     val name: String = "",
+    val episodes: List<Episode> = emptyList(),
     val error: String? = null
 )

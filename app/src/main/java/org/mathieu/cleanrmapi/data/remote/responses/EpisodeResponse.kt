@@ -1,5 +1,16 @@
 package org.mathieu.cleanrmapi.data.remote.responses
 
+/**
+ * Represents detailed information about an episode, typically received from an API response.
+ *
+ * @property id The unique identifier for the episode.
+ * @property name The name of the episode.
+ * @property air_date The air date of the episode.
+ * @property episode The code of the episode, usually indicating its order within the series.
+ * @property characters A list of URLs referring to characters that appear in this episode.
+ * @property url The unique URL endpoint specifically for this episode's data.
+ * @property created The timestamp indicating when the episode was added to the database.
+ */
 data class EpisodeResponse(
     val id: Int,
     val name: String,

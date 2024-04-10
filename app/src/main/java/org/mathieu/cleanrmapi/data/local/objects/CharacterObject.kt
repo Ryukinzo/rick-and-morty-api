@@ -45,7 +45,7 @@ internal class CharacterObject: RealmObject {
     var locationId: Int = -1
     var image: String = ""
     var created: String = ""
-    var episode: RealmList<String> = RealmList()
+    var episode: RealmList<EpisodeObject> = RealmList()
 }
 
 

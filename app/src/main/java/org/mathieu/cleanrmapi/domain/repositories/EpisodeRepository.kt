@@ -6,18 +6,18 @@ import org.mathieu.cleanrmapi.domain.models.episode.Episode
 
 interface EpisodeRepository {
     /**
-     * Fetches a list of characters from the data source. The function streams the results
-     * as a [Flow] of [List] of [Character] objects.
+     * Fetches a list of episodes from the data source. The function streams the results
+     * as a [Flow] of [List] of [Episode] objects.
      *
-     * @return A flow emitting a list of characters.
+     * @return A flow emitting a list of episodes.
      */
     suspend fun getEpisodes(): Flow<List<Episode>>
 
     /**
-     * Fetches the details of a specific character based on the provided ID.
+     * Fetches the details of a specific episode based on the provided ID.
      *
-     * @param id The unique identifier of the character to be fetched.
-     * @return Details of the specified character.
+     * @param id The unique identifier of the episode to be fetched.
+     * @return Details of the specified episode.
      */
     suspend fun getEpisode(id: Int): Episode
 }
