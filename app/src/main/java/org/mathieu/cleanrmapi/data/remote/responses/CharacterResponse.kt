@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
  * @property created The timestamp indicating when the character was added to the database.
  */
 @Serializable
-internal data class CharacterResponse(
+data class CharacterResponse(
     val id:	Int,
     val name: String,
     val status: String,
@@ -30,7 +30,7 @@ internal data class CharacterResponse(
     val origin: CharacterLocationResponse,
     val location: CharacterLocationResponse,
     val image: String,
-    val episode: RealmList<EpisodeResponse>?,
+    val episode: RealmList<EpisodeResponse>,
     val url: String,
     val created: String
 )

@@ -24,7 +24,6 @@ internal class EpisodeObject: RealmObject {
     var name: String = ""
     var air_date: String = ""
     var episode: String = ""
-    var characters: List<String> = listOf()
     var url: String = ""
     var created: String = ""
 }
@@ -38,7 +37,6 @@ internal fun EpisodeResponse.toRealmObject() = EpisodeObject().also { obj ->
     obj.name = name
     obj.air_date = air_date
     obj.episode = episode
-    obj.characters = characters
     obj.url = url
     obj.created = created
 }
@@ -52,7 +50,7 @@ internal fun EpisodeObject.toModel() = Episode(
     name = name,
     air_date = air_date,
     episode = episode,
-    characters = characters,
+    characters = emptyList(),
     url = url,
     created = created
 )

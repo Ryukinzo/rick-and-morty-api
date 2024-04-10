@@ -1,5 +1,7 @@
 package org.mathieu.cleanrmapi.domain.models.episode
 
+import org.mathieu.cleanrmapi.domain.models.character.Character
+
 /**
  * Represents detailed information about an episode, typically received from an API response.
  *
@@ -17,7 +19,7 @@ data class Episode(
     val name: String,
     val air_date: String,
     val episode: String,
-    val characters: List<String>,
+    val characters: List<Character>,
     val url: String,
     val created: String
 )
