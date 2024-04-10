@@ -1,6 +1,8 @@
 package org.mathieu.cleanrmapi.ui.screens.characters
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.koin.core.component.inject
 import org.mathieu.cleanrmapi.domain.models.character.Character
 import org.mathieu.cleanrmapi.domain.repositories.CharacterRepository
@@ -41,12 +43,15 @@ class CharactersViewModel(application: Application) : ViewModel<CharactersState>
         }
     }
 
+    fun loadMoreCharacters() {
+        viewModelScope.launch {
+            characterRepository.loadMore()
+        }
+    }
 
     private fun selectedCharacter(character: Character) =
         sendEvent(Destination.CharacterDetails(character.id.toString()))
-
 }
-
 
 data class CharactersState(
     val isLoading: Boolean = true,
